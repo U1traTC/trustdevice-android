@@ -2,6 +2,7 @@ package cn.tongdun.mobrisk.core.collectors
 
 import cn.tongdun.mobrisk.core.tools.EnvUtils
 import cn.tongdun.mobrisk.core.tools.JNIHelper
+import java.io.File
 
 /**
  * @description:
@@ -23,6 +24,22 @@ class MagiskCollector : MagiskInterface {
     }
 
     private fun detectMagiskByFile(): Boolean {
-        return EnvUtils.fileInEnv("magisk")
+        val paths = arrayOf(
+            "/data/adb/magisk",
+            "/data/adb/modules",
+            "/data/adb/zygisk",
+            "/data/adb/modules/zygisk_lsposed",
+            "/data/adb/modules/riru_lsposed",
+            "/data/adb/modules/riru_edxposed",
+            "/system/bin/apd",
+            "/data/apatch",
+            "/data/adb/ap/bin/apd",
+            "/data/adb/ap/bin/busybox",
+            "/data/adb/ksu/bin/ksud",
+            "/data/adb/ksu/bin/busybox",
+            "/data/adb/ksu",
+            "/data/adb/ksu_modules"
+        )
+        return EnvUtils.fileInEnv("magisk") || paths.any { File(it).exists() }
     }
 }
